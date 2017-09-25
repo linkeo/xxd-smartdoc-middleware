@@ -10,7 +10,7 @@ Smartdoc reads all API-Document comments in service folder by AST, generates a d
 
 1. Install
 
-    npm install --save smartdoc-middleware
+    npm install --save koa-smartdoc-middleware
 
 ### 2. Basic Usage
 
@@ -30,11 +30,12 @@ Then, you can easily extend your app with smartdoc:
 
 ```js
 // index.js
-const app = require('express')();
-const smartdoc = require('smartdoc-middleware');
+const app = require('koa')();
+const mount = require('koa-mount');
+const smartdoc = require('koa-smartdoc-middleware');
 const pathToServices = path.join('../services');
 // ...
-app.use('/doc', smartdoc(pathToServices));
+app.use(mount('/doc', smartdoc(pathToServices)));
 // ...
 app.listen(3000);
 ```

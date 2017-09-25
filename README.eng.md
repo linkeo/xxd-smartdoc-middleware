@@ -17,7 +17,7 @@ Smartdoc通过AST读取接口目录下所有的API文档化注释，生成一个
 ### 1. 安装
 
 ```bash
-npm install --save smartdoc-middleware
+npm install --save koa-smartdoc-middleware
 ```
 
 ### 2. 引入中间件
@@ -38,11 +38,12 @@ npm install --save smartdoc-middleware
 
 ```js
 // index.js
-const app = require('express')();
-const smartdoc = require('smartdoc-middleware');
+const app = require('koa')();
+const mount = require('koa-mount');
+const smartdoc = require('koa-smartdoc-middleware');
 const pathToServices = path.join('../services');
 // ...
-app.use('/doc', smartdoc(pathToServices));
+app.use(mount('/doc', smartdoc(pathToServices)));
 // ...
 app.listen(3000);
 ```
