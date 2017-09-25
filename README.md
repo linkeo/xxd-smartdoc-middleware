@@ -10,7 +10,9 @@ Smartdoc reads all API-Document comments in service folder by AST, generates a d
 
 1. Install
 
-    npm install --save koa-smartdoc-middleware
+```bash
+npm install --save koa-smartdoc-middleware
+```
 
 ### 2. Basic Usage
 
