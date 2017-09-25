@@ -1,0 +1,21 @@
+{
+  "name": "koa-smartdoc-middleware",
+  "version": "0.0.1",
+  "description": "Smartdoc is an RESTful document generator according to document-style comment",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "linkeo",
+  "repository": "linkeo/koa-smartdoc-middleware",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "ejs": "^2.5.5",
+    "esprima": "^4.0.0",
+    "fs-extra": "^2.0.0",
+    "koa": "^2.3.0",
+    "koa-mount": "^3.0.0",
+    "koa-static": "^4.0.1"
+  }
+}
