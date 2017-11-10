@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import './index.less';
 
 // global.app = require('../test/spec.json');
-// global.app.address = 'http://linkang.tdc.smartstudy.com:3000';
+// global.app.address = 'http://localhost:3000';
 // console.log('app is replaced.');
 
 // detect api mount path at first

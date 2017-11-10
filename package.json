@@ -1,14 +1,14 @@
 {
-  "name": "koa-smartdoc-middleware",
-  "version": "0.0.1",
-  "description": "Smartdoc is an RESTful document generator according to document-style comment",
+  "name": "xxd-smartdoc-middleware",
+  "version": "0.0.2",
+  "description": "Project specific version for smartdoc-middleware. Smartdoc is an RESTful document generator according to document-style comment",
   "main": "index.js",
   "scripts": {
     "start": "roadhog server",
     "build": "roadhog build"
   },
   "author": "linkeo",
-  "repository": "linkeo/koa-smartdoc-middleware",
+  "repository": "linkeo/xxd-smartdoc-middleware",
   "license": "ISC",
   "dependencies": {
     "chalk": "^1.1.3",

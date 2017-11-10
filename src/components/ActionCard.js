@@ -223,7 +223,14 @@ class ActionCard extends React.Component {
                         <br />
                         <br />
                         {res.msg ? (
-                          <Alert type="error" message={<pre>{res.msg}</pre>} />
+                          <Alert type="error" message={<pre>{
+                            res.err ? [
+                              res.msg,
+                              '==========',
+                              res.err.msg,
+                              'at ' + res.err.pos,
+                            ].join('\n') : res.msg
+                          }</pre>} />
                         ) : (
                           res.data ? (
                             <Alert
