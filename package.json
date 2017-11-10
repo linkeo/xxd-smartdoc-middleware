@@ -4,7 +4,8 @@
   "description": "Smartdoc is an RESTful document generator according to document-style comment",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "start": "roadhog server",
+    "build": "roadhog build"
   },
   "author": "linkeo",
   "repository": "linkeo/koa-smartdoc-middleware",
@@ -16,6 +17,31 @@
     "fs-extra": "^2.0.0",
     "koa": "^2.3.0",
     "koa-mount": "^3.0.0",
-    "koa-static": "^4.0.1"
+    "koa-static": "^4.0.1",
+    "xxd-log": "^1.0.2"
+  },
+  "devDependencies": {
+    "antd": "^2.13.9",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-dva-hmr": "^0.3.2",
+    "babel-plugin-import": "^1.6.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-runtime": "^6.26.0",
+    "camel-case": "^3.0.0",
+    "dva": "^1.2.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.10.3",
+    "expect": "^1.20.2",
+    "husky": "^0.12.0",
+    "marked": "^0.3.6",
+    "param-case": "^2.1.1",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "react-inspector": "^1.1.2",
+    "redbox-react": "^1.5.0",
+    "roadhog": "^0.5.4"
   }
 }

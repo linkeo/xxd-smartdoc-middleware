@@ -1,0 +1,115 @@
+@keyframes twinkle {
+  0% { }
+  100% { color: transparent; }
+}
+
+.component-action-card {
+  >.ant-card-head {
+    a {
+      display: block;
+      color: #666;
+    }
+  }
+
+  >.ant-card-body {
+
+    .action-description {
+      padding: 8px 16px;
+      margin-bottom: 10px;
+    }
+
+    .action-section {
+
+      + .action-section {
+        margin-top: 8px;
+      }
+
+      .action-section-name {
+        padding-top: 12px;
+        text-align: right;
+        font-weight: bold;
+      }
+    }
+
+    .ant-card > .ant-card-body {
+      padding: 8px;
+    }
+
+    .params-card {
+
+      .ant-row {
+
+        + .ant-row {
+          margin-top: 8px;
+        }
+
+        .text-col {
+          padding-top: 5px;
+          padding-bottom: 5px;
+        }
+        .ant-row.param-input {
+          padding: 0;
+          margin-bottom: 0;
+        }
+        .ant-alert.param-description {
+          margin-bottom: 0;
+          &.ant-alert-no-icon {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+          }
+        }
+        .param-input + .param-description {
+          margin-top: 8px;
+        }
+      }
+    }
+
+
+    .response-card.ant-card {
+      > .ant-card-body {
+        padding: 12px 8px;
+
+        .response-preview {
+          max-height: 500px;
+          overflow-y: auto;
+          padding: 16px;
+        }
+
+        pre {
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          word-break: break-all;
+        }
+
+      }
+    }
+
+    .request-preview-card.ant-card {
+      > .ant-card-body {
+        position: relative;
+        padding: 12px 48px 12px 8px;
+
+        .send-button {
+          position: absolute;
+          top: 7px;
+          right: 8px;
+
+          &[disabled] {
+            animation: 1s ease-in-out infinite twinkle;
+          }
+        }
+      }
+    }
+  }
+
+}
+.component-action-card.component-action-card-folded {
+  >.ant-card-head {
+    border-bottom: none;
+  }
+
+  >.ant-card-body {
+    display: none;
+  }
+}

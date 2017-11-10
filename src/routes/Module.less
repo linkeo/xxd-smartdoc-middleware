@@ -1,0 +1,59 @@
+.container-module {
+  position: relative;
+  padding-right: 320px;
+
+  .title-icon {
+    margin-right: 8px;
+  }
+
+  .module-description {
+    padding: 8px 16px;
+    margin-bottom: 8px;
+  }
+
+  .module-header .ant-timeline-item-content {
+    padding-right: 280px;
+    position: relative;
+
+    .right-mute {
+      position: absolute;
+      right: 24px;
+      opacity: 0.25;
+      max-width: 240px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .ant-timeline {
+    .ant-timeline-item {
+      padding-bottom: 8px;
+
+      .ant-timeline-item-content {
+        min-height: unset;
+        padding-bottom: 0;
+        word-wrap: break-word;
+      }
+    }
+  }
+
+  .float-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 320px;
+    padding-left: 16px;
+
+    .ant-card {
+      > .ant-card-head {
+        padding: 0 16px;
+      }
+      > .ant-card-body {
+        max-height: ~"calc(100vh - 150px)";
+        padding: 16px;
+        overflow-y: auto;
+      }
+    }
+  }
+}
