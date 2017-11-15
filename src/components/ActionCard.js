@@ -229,7 +229,7 @@ class ActionCard extends React.Component {
                               '==========',
                               res.err.msg,
                               'at ' + res.err.pos,
-                            ].filter(_.identity).join('\n') : res.msg
+                            ].filter(text => text && text.trim()).join('\n') : res.msg
                           }</pre>} />
                         ) : (
                           res.data ? (
