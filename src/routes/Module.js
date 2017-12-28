@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Alert, Timeline, Affix, Card, Row, Col, Switch, Icon } from 'antd';
+import { Alert, Timeline, Affix, Card, Row, Col, Switch, Icon, Input } from 'antd';
 import Method from '../components/Method';
 import Markdown from '../components/Markdown';
 import ActionCard from '../components/ActionCard';
@@ -38,7 +38,7 @@ class Module extends React.Component {
   }
 
   render() {
-    const { params, enableTest, dispatch } = this.props;
+    const { params, enableTest, dispatch, token } = this.props;
     const module = app.modules.filter(mod => mod.name === params.module)[0];
     const unfoldAction = params.action;
 
@@ -137,6 +137,21 @@ class Module extends React.Component {
                   />
                 </Col>
               </Row>
+              <Row type="flex" align="middle" gutter={8} style={{marginTop: '30px'}}>
+                <Col span={6}>TOKEN</Col>
+                <Col span={18}>
+                  <Input
+                    value={token}
+                    onChange={(event) => {
+                      dispatch({
+                        type: 'options/set',
+                        key: 'token',
+                        value: event.target.value,
+                      });
+                    }}
+                  />
+                </Col>
+              </Row>
             </Card>
           </Affix>
         </div>
@@ -148,6 +163,7 @@ class Module extends React.Component {
 function mapStateToProps({ options }) {
   return {
     enableTest: options.enableTest,
+    token: options.token,
   };
 }
 

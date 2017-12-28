@@ -15,12 +15,14 @@ import Markdown from './Markdown';
 class ActionCard extends React.Component {
 
   generateRequestOptions() {
-    const { action, params = {} } = this.props;
+    const { action, params = {}, token } = this.props;
     const method = action.route.method.toUpperCase();
     let path = action.route.path;
-
     const options = {
       method,
+      headers: {
+        'x-hdk-token': token
+      },
       credentials: 'include',
     };
 
@@ -285,6 +287,7 @@ function mapStateToProps({ action, options }, ownProps) {
   return Object.assign({
     enableTest: options.enableTest,
     testStatus: null,
+    token: options.token
   }, action[ownProps.action.name]);
 }
 

@@ -2,9 +2,9 @@ import dva from 'dva';
 import 'antd/dist/antd.css';
 import './index.less';
 
-// global.app = require('../test/spec.json');
-// global.app.address = 'http://localhost:3000';
-// console.log('app is replaced.');
+global.app = require('../test/spec.json');
+global.app.address = 'http://localhost:3000';
+console.log('app is replaced.');
 
 // detect api mount path at first
 require('./utils/api_mount_root');
