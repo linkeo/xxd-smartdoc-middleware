@@ -1,0 +1,11 @@
+{
+  "eslint.autoFixOnSave": true,
+  "editor.formatOnSave": true,
+  "files.autoSave": "onFocusChange",
+  "emmet.includeLanguages": {
+    "ejs": "html",
+    "vue-html": "html"
+  },
+  "eslint.validate": ["javascript", "javascriptreact", "vue"],
+  "editor.rulers": [100]
+}

@@ -1,48 +1,60 @@
 {
   "name": "xxd-smartdoc-middleware",
-  "version": "0.0.5",
-  "description": "Project specific version for smartdoc-middleware. Smartdoc is an RESTful document generator according to document-style comment",
-  "main": "index.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/middleware.js",
+  "files": [
+    "dist",
+    "lib"
+  ],
   "scripts": {
-    "start": "roadhog server",
-    "build": "roadhog build"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rm -rf dist",
+    "build": "parcel build src/index.html -d dist --public-url ./",
+    "watch": "parcel watch src/index.html -d dist",
+    "start": "parcel src/index.html -d dist"
   },
-  "author": "linkeo",
-  "repository": "linkeo/xxd-smartdoc-middleware",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linkeo/xxd-smartdoc-middleware.git"
+  },
+  "keywords": [],
+  "author": "",
   "license": "ISC",
-  "dependencies": {
-    "chalk": "^1.1.3",
-    "ejs": "^2.5.5",
-    "esprima": "^4.0.0",
-    "fs-extra": "^2.0.0",
-    "koa": "^2.3.0",
-    "koa-mount": "^3.0.0",
-    "koa-static": "^4.0.1",
-    "lodash": "^4.17.4",
-    "xxd-log": "^1.0.2"
+  "bugs": {
+    "url": "https://github.com/linkeo/xxd-smartdoc-middleware/issues"
   },
+  "homepage": "https://github.com/linkeo/xxd-smartdoc-middleware#readme",
   "devDependencies": {
-    "antd": "^2.13.9",
-    "babel-eslint": "^7.2.3",
-    "babel-plugin-dva-hmr": "^0.3.2",
-    "babel-plugin-import": "^1.6.2",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-runtime": "^6.26.0",
-    "camel-case": "^3.0.0",
-    "dva": "^1.2.1",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^13.0.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.10.3",
-    "expect": "^1.20.2",
-    "husky": "^0.12.0",
-    "marked": "^0.3.6",
-    "param-case": "^2.1.1",
-    "react": "^15.6.2",
-    "react-dom": "^15.6.2",
-    "react-inspector": "^1.1.2",
-    "redbox-react": "^1.5.0",
-    "roadhog": "^0.5.4"
+    "@vue/component-compiler-utils": "^2.6.0",
+    "d3-ease": "^1.0.5",
+    "d3-timer": "^1.0.9",
+    "dompurify": "^1.0.10",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "hammerjs": "^2.0.8",
+    "less": "^3.9.0",
+    "lodash.clamp": "^4.0.3",
+    "lodash.escaperegexp": "^4.1.2",
+    "lodash.maxby": "^4.6.0",
+    "lodash.throttle": "^4.1.1",
+    "marked": "^0.6.1",
+    "parcel-bundler": "^1.12.3",
+    "prettier": "^1.16.4",
+    "prismjs": "^1.16.0",
+    "vue": "^2.6.10",
+    "vue-hot-reload-api": "^2.3.3",
+    "vue-material-design-icons": "^3.1.0",
+    "vue-router": "^3.0.2",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "klaw": "^3.0.0",
+    "koa-send": "^5.0.0",
+    "lodash.difference": "^4.5.0",
+    "lodash.flatten": "^4.4.0"
   }
 }

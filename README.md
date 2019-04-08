@@ -1,128 +1,111 @@
-#smartdoc-middleware
+# Smartdoc Middleware (For XXD) v1.x
 
-Smartdoc is an RESTful document generator according to document-style comment.
-
-## How it works
-
-Smartdoc reads all API-Document comments in service folder by AST, generates a delaration data file, then serve a single-page application for browsering and testing interfaces at the mounted route.
+\* It's an project specific version, maybe not suitable for other projects.
 
 ## Usage
 
-1. Install
-
 ```bash
-npm install --save koa-smartdoc-middleware
+npm i koa-mount xxd-smartdoc-middleware@^1
 ```
-
-### 2. Basic Usage
-
-For example, we have an project like this:
-
-```
-- index.js
-+ services // The directory where api functions defined in.
-  - user.js
-  - post.js
-  - ...
-```
-
-And you've commented these service functions correctly. (See below)
-
-Then, you can easily extend your app with smartdoc:
 
 ```js
-// index.js
-const app = require('koa')();
-const mount = require('koa-mount');
-const smartdoc = require('koa-smartdoc-middleware');
-const pathToServices = path.join('../services');
-// ...
-app.use(mount('/doc', smartdoc(pathToServices)));
-// ...
-app.listen(3000);
+const app = new Koa();
+const smartdoc = require('xxd-smartdoc-middleware');
+//...
+const spec = require('./spec.json'); // The API specification of your web application.
+const prefix = '/docs'; // The prefix you want to serve smartdoc.
+const docsDir = `${__dirname}/docs`; // The directory of markdown documents.
+app.use(mount(prefix, smartdoc({ prefix, spec, docsDir })));
 ```
 
-Then, you will able to access the document page at `http://localhost:3000/doc`.
+> Note: Must use koa-mount instead of koa-router, because koa-mount will strip the prefix off but koa-router wont.
 
-### 3. Writing API-Document Comments
+## Options
 
-First, you should declare an app like this (In any file inside the services folder, generally, services/index.js):
+- `options.prefix`: The prefix defined here will be treat as relative path of the document page from the api root.
+- `options.spec`: API specification, describes your application, modules and actions.
+- `options.docs`: The directory you put markdown documents, this module will parse them to generate the catalog and search index.
 
-```js
-// services/index.js
-/**
- * Example Application
- * @application example-app
- *
- * @author linkeo
- * @version 0.0.1
- */
-module.exports = {};
-```
+## API Specification
 
->   **Notice:** To declare an Application, `@application [name]` is necessary.
+### ApplicationSpecification
 
-Then, in every service modules, declare your APIs.
+| Field       | Type                  | Description                                                       |
+| ----------- | --------------------- | ----------------------------------------------------------------- |
+| type        | string                | Must be `"application"`                                           |
+| title       | string                | Display name of the application                                   |
+| name        | string                | Inner name of the application, generally the name in package.json |
+| description | string                | Description of the application, **supports markdown**             |
+| notes       | string[]              | Notes of the application, **supports markdown**                   |
+| address     | string                | The url of the application                                        |
+| contact     | string                | Contact messages of the developer.                                |
+| version     | string                | Version of the application, generally the version in package.json |
+| modules     | ModuleSpecification[] | Modules in the application                                        |
 
-```js
-// services/user.js
+### ModuleSpecification
 
-/**
- * User Services
- * @module user
- * @path /user
- */
-module.exports = class UserService {
+| Field       | Type                      | Description                                                  |
+| ----------- | ------------------------- | ------------------------------------------------------------ |
+| type        | string                    | Must be `"module"`                                           |
+| title       | string                    | Display name of the module                                   |
+| name        | string                    | Inner name of the module, generally the name in package.json |
+| description | string                    | Description of the module, **supports markdown**             |
+| notes       | string[]                  | Notes of the module, **supports markdown**                   |
+| path        | string                    | The path prefix of the module                                |
+| middlewares | MiddlewareSpecification[] | Middlewares applied to every actions of the module           |
+| filename    | string                    | Filename of the module                                       |
+| actions     | ActionSpecification[]     | Actions of the module                                        |
 
-  /**
-   * User Login
-   *
-   * @note If success, will set cookies with response.
-   *
-   * @route {post} /login
-   * @param {String} account Phone or email of the user
-   * @param {String} password
-   * @param {String} from Where the user logins, can be 'app', 'web'
-   * @return {Object} An object contains user information
-   */
-  *login(req, res) {
-    //...
-  }
-}
-```
-
->   **Notice:** To declare a Module, `@module [name]` is necessary.
+> Note:
+> According to the implementation of XXD:
 >
->   **Notice:** To declare an Action, `@route [method] [path]` is necessary.
+> - Path of module spec doesn't affect path of actions, but must be prefix of those paths.
 
-Then, you will get an API declaration structure like this:
+### ActionSpecification
 
-```yaml
-name: example-app
-title: Example Application
-modules:
-  - name: user-674e7e
-    title: User Services
-    path: /user
-    actions:
-      - name: post-login-768ed4
-        title: User Login
-        route:
-          method: post
-          path: /login
-        params: ...
-```
+| Field        | Type                      | Description                                                                                                |
+| ------------ | ------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| type         | string                    | Must be `"action"`                                                                                         |
+| title        | string                    | Display name of the module                                                                                 |
+| name         | string                    | Inner name of the module, generally the name in package.json                                               |
+| description  | string                    | Description of the module, **supports markdown**                                                           |
+| notes        | string[]                  | Notes of the module, **supports markdown**                                                                 |
+| route.method | string                    | Request method of the action, one of `"GET"`, `"POST"`, `"PUT"`, `"DELETE"`,`"HEAD"`,`"OPTIONS"`,`"PATCH"` |
+| route.path   | string                    | Request path of the action, if module has prefix, route.path must be prefixed by that                      |
+| params       | ParameterSpecification[]  | Request parameters of the action                                                                           |
+| middlewares  | MiddlewareSpecification[] | Middlewares applied to the action                                                                          |
+| filename     | string                    | Filename of the module                                                                                     |
+| funcname     | string                    | Function name of the action                                                                                |
 
+> Note:
+> According to the implementation of XXD:
+>
+> - Path of module spec doesn't affect path of actions, but must be prefix of those paths.
 
+### ParameterSpecification
 
-## Features
+| Field       | Type   | Description                                               |
+| ----------- | ------ | --------------------------------------------------------- |
+| type        | string | Type of the parameter                                     |
+| name        | string | Name of the parameter, generally the name in package.json |
+| description | string | Description of the parameter, **supports markdown**       |
 
-- Read document-style comment of RESTful interface.
-- Serve a single-page application to display informations about your interfaces, e.g. method, path, params.
-- Can send request to test your interface.
+> Note:
+> According to the implementation of XXD:
+>
+> - Parameter can be transferred by route parameters, query, request body (if possible, support json, urlencoded)
+> - Type `"Upload"` is representing a multipart file parameter.
+> - Multipart body is only supported when an `Upload` parameter is declared in the action.
+> - There will be some "mismatch parameter" if a `@param` annotation cannot be parsed correctly, these will be **ignored** in this module.
 
-## Todo
+### MiddlewareSpecification
 
-- [ ] More powerful request, with custom headers, cookies, etc.
-- [ ] Support Environment, a scope to store some variables.
-- [ ] Custom code, will run after response received.
+| Field | Type   | Description                                                    |
+| ----- | ------ | -------------------------------------------------------------- |
+| name  | string | Name of the parameter, generally the name in package.json      |
+| args  | string | Arguments of the parameter, in the same format of query string |
+
+> Note:
+> According to the implementation of XXD:
+>
+> - Args of middlewares is a querystring.

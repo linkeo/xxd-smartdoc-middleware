@@ -1,26 +1,173 @@
-import dva from 'dva';
-import 'antd/dist/antd.css';
-import './index.less';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import LinkIcon from 'vue-material-design-icons/LinkVariant.vue';
+import CloseIcon from 'vue-material-design-icons/CloseCircle.vue';
+import { timer as createTimer } from 'd3-timer';
+import { easeCubicOut as ease } from 'd3-ease';
+import clamp from 'lodash.clamp';
+import throttle from 'lodash.throttle';
+import maxBy from 'lodash.maxby';
+import App from './App.vue';
+import Home from './routes/Home';
+import ControllerDocument from './routes/ControllerDocument.vue';
+import ArticleDocument from './routes/ArticleDocument.vue';
+import './defaults';
 
-// global.app = require('../test/spec.json');
-// global.app.address = 'http://localhost:3000';
-// console.log('app is replaced.');
+const anchorOffset = 100;
+const setAnchorInterval = 1000;
+const scrollDuration = 500;
+const scrollListenInterval = 100;
+let autoScroller = 0;
+let autoAnchorer = 0;
 
-// detect api mount path at first
-require('./utils/api_mount_root');
+Vue.use(VueRouter);
+Vue.component('close-icon', CloseIcon);
+Vue.component('link-icon', LinkIcon);
 
-// 1. Initialize
-const app = dva();
+const clearAnchor = () => {
+  document.querySelectorAll('.anchor-active').forEach(element => {
+    element.classList.remove('anchor-active');
+  });
+};
+const setAnchor = (() => {
+  let state = {};
+  return selector => {
+    if (state[selector]) {
+      return Promise.resolve();
+    }
+    return new Promise((resolve, reject) => {
+      clearAnchor();
+      const element = document.querySelector(selector);
+      if (element) {
+        state[selector] = true;
+        setTimeout(() => {
+          const showingElement = document.querySelector(selector);
+          if (showingElement) {
+            showingElement.classList.add('anchor-active');
+          }
+          resolve();
+          setTimeout(() => {
+            state[selector] = false;
+          }, setAnchorInterval);
+        }, 0);
+      }
+    });
+  };
+})();
 
-// 2. Plugins
-// app.use({});
+const scrollToElement = (() => {
+  let timestamp;
+  return selector =>
+    new Promise((resolve, reject) => {
+      autoScroller += 1;
+      let t = Date.now();
+      timestamp = t;
+      const element = document.querySelector(selector);
+      if (!element) {
+        resolve();
+        return;
+      }
+      const change = element.getBoundingClientRect().top - anchorOffset;
+      const from = window.scrollY;
+      const max = document.body.scrollHeight - document.body.clientHeight;
+      const to = clamp(from + change, 0, max);
+      let timer = createTimer(elapsed => {
+        const percent = elapsed / scrollDuration;
+        const progress = ease(percent);
+        const curr = from + (to - from) * progress;
+        window.scrollTo(0, curr);
+        if (elapsed > scrollDuration || t !== timestamp) {
+          timer.stop();
+          resolve();
+        }
+      });
+    })
+      .catch(err => {
+        console.error(err);
+      })
+      .then(() => {
+        setTimeout(() => {
+          autoScroller -= 1;
+        }, scrollListenInterval * 2);
+      });
+})();
 
-// 3. Model
-app.model(require('./models/actionModel'));
-app.model(require('./models/options'));
+const router = new VueRouter({
+  mode: 'hash',
+  routes: [
+    { path: '/', component: Home },
+    { path: '/api/controller/*', component: ControllerDocument },
+    { path: '/articles/*', component: ArticleDocument },
+  ],
+  // scrollBehavior(to, from, savedPosition) {
+  //   if (to.hash) {
+  //     setAnchor(to.hash);
+  //     return {
+  //       selector: to.hash,
+  //       offset: { x: 0, y: 100 },
+  //     };
+  //   }
+  //   if (savedPosition) {
+  //     return savedPosition;
+  //   }
+  //   return { x: 0, y: 0 };
+  // },
+});
 
-// 4. Router
-app.router(require('./router'));
+router.afterEach((to, from) => {
+  setTimeout(() => {
+    if (to.hash) {
+      setAnchor(to.hash);
+    } else {
+      clearAnchor();
+    }
+  }, scrollListenInterval);
+  if (autoAnchorer === 0) {
+    setTimeout(() => {
+      if (to.hash) {
+        scrollToElement(to.hash);
+      } else {
+        scrollToElement('body');
+      }
+    }, scrollListenInterval);
+  }
+});
 
-// 5. Start
-app.start('#root');
+window.addEventListener(
+  'scroll',
+  throttle(() => {
+    if (autoScroller > 0) {
+      return;
+    }
+    const anchors = Array.from(document.querySelectorAll('#main *[id]'))
+      .map(element => ({
+        element,
+        top: element.getBoundingClientRect().top - anchorOffset,
+      }))
+      .filter(entry => entry.top <= 0);
+    // console.log(autoScroller, anchors);
+    autoAnchorer += 1;
+    let dest = '';
+    if (anchors.length > 0) {
+      const id = maxBy(anchors, 'top').element.id;
+      if (id) {
+        dest = '#' + id;
+      }
+    }
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+    if (isMobile){
+      router.replace(dest);
+    } else {
+      router.push(dest);
+    }
+    setTimeout(() => {
+      autoAnchorer -= 1;
+    }, scrollListenInterval);
+  }, scrollListenInterval),
+);
+
+const app = new Vue({
+  el: 'main',
+  render: h => h(App),
+  router,
+});
