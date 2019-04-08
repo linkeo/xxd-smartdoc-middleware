@@ -1,56 +1,66 @@
-declare interface MiddlewareOptions {
-  prefix: string;
-  docsDir: string;
-  spec: ApplicationSpec;
-}
+import Koa from 'koa';
 
-declare interface CommonSpec {
-  title: string;
-  name: string;
-  description: string;
-  notes: string[];
-}
+export = SmartdocMiddleware;
 
-declare interface ApplicationSpec extends CommonSpec {
-  type: 'application';
-  address: string;
-  author: string;
-  contact: string;
-  version: string;
-  modules: ModuleSpec[];
-}
+declare function SmartdocMiddleware(
+  options: SmartdocMiddleware.MiddlewareOptions,
+): Koa.Middleware;
 
-declare interface ModuleSpec extends CommonSpec {
-  type: 'module';
-  path: string;
-  middlewares: Middleware[];
-  filename: string;
-  actions: ActionSpec[];
-}
+declare namespace SmartdocMiddleware {
+  export interface MiddlewareOptions {
+    prefix: string;
+    docsDir: string;
+    spec: ApplicationSpec;
+  }
 
-declare interface ActionSpec extends CommonSpec {
-  type: 'action';
-  route: {
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD';
+  export interface CommonSpec {
+    title: string;
+    name: string;
+    description: string;
+    notes: string[];
+  }
+
+  export interface ApplicationSpec extends CommonSpec {
+    type: 'application';
+    address: string;
+    author: string;
+    contact: string;
+    version: string;
+    modules: ModuleSpec[];
+  }
+
+  export interface ModuleSpec extends CommonSpec {
+    type: 'module';
     path: string;
-  };
-  params: (Parameter | Mismatch)[];
-  middlewares: Middleware[];
-  filename: string;
-  funcname: string;
-}
+    middlewares: Middleware[];
+    filename: string;
+    actions: ActionSpec[];
+  }
 
-declare interface Middleware {
-  name: string;
-  args: string;
-}
+  export interface ActionSpec extends CommonSpec {
+    type: 'action';
+    route: {
+      method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD';
+      path: string;
+    };
+    params: (Parameter | Mismatch)[];
+    middlewares: Middleware[];
+    filename: string;
+    funcname: string;
+  }
 
-declare interface Mismatch {
-  mismatch: string;
-}
+  export interface Middleware {
+    name: string;
+    args: string;
+  }
 
-declare interface Parameter {
-  type: string;
-  name: string;
-  description: string;
+  export interface Mismatch {
+    mismatch: string;
+  }
+
+  export interface Parameter {
+    type: string;
+    name: string;
+    description: string;
+  }
 }
