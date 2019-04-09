@@ -35,7 +35,7 @@ g.getAppSpec =
               name: 'example-action-2',
               route: {
                 method: 'post',
-                path: '/example/2',
+                path: '/example/:a',
               },
               params: [
                 { type: 'string', name: 'a' },

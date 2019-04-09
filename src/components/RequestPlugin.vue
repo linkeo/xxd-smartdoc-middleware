@@ -130,6 +130,11 @@ export default {
       this.hide();
     });
     if (this.action) {
+      const routePath = (this.action.route && this.action.route.path) || '';
+      const routeParams = (routePath.match(/:\w+/g) || []).map(pn =>
+        pn.slice(1),
+      );
+      console.log(routePath, routeParams);
       const hasBody = !/^(get|delete)$/i.test(this.action.route.method);
       const hasMultipart = (this.action.params || []).some(
         param => param.type === 'Upload',
@@ -137,6 +142,8 @@ export default {
       const pos = param =>
         param.type === 'Upload'
           ? 'file'
+          : routeParams.includes(param.name)
+          ? 'param'
           : hasBody
           ? hasMultipart
             ? 'field'
@@ -157,6 +164,11 @@ export default {
         this.panel = 'preview';
         this.response = getDefaultResponseState();
         if (this.action) {
+          const routePath = (this.action.route && this.action.route.path) || '';
+          const routeParams = (routePath.match(/:\w+/g) || []).map(pn =>
+            pn.slice(1),
+          );
+          console.log(routePath, routeParams);
           const hasBody = !/^(get|delete)$/i.test(this.action.route.method);
           const hasMultipart = (this.action.params || []).some(
             param => param.type === 'Upload',
@@ -164,6 +176,8 @@ export default {
           const pos = param =>
             param.type === 'Upload'
               ? 'file'
+              : routeParams.includes(param.name)
+              ? 'param'
               : hasBody
               ? hasMultipart
                 ? 'field'
@@ -181,6 +195,11 @@ export default {
     },
     action(to, from) {
       if (from && to !== from) {
+        const routePath = (to.route && to.route.path) || '';
+        const routeParams = (routePath.match(/:\w+/g) || []).map(pn =>
+          pn.slice(1),
+        );
+        console.log(routePath, routeParams);
         const hasBody = !/^(get|delete)$/i.test(to.route.method);
         const hasMultipart = (to.params || []).some(
           param => param.type === 'Upload',
@@ -188,6 +207,8 @@ export default {
         const pos = param =>
           param.type === 'Upload'
             ? 'file'
+            : routeParams.includes(param.name)
+            ? 'param'
             : hasBody
             ? hasMultipart
               ? 'field'
