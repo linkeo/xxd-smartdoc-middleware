@@ -1,5 +1,5 @@
 <template>
-  <section class="request-plugin" :class="{hide:!show}">
+  <section class="request-plugin" :class="{hide:!show}" @keyup.esc="hide">
     <close-icon class="close-icon" @click="hide"></close-icon>
     <section v-if="action" class="request markdown-section">
       <header>
@@ -81,11 +81,8 @@
 
 <script>
 import qs from 'qs';
-import Hammer from 'hammerjs';
 import Prism from 'prismjs';
 import InputFile from './InputFile.vue';
-
-delete Hammer.defaults.cssProps.userSelect;
 
 const html = (...nodes) => {
   const div = document.createElement('div');
@@ -123,12 +120,15 @@ export default {
     };
   },
   mounted() {
-    this.hammer = new Hammer.Manager(this.$el, {
-      recognizers: [[Hammer.Swipe, { direction: Hammer.DIRECTION_RIGHT }]],
-    });
-    this.hammer.on('swipe', ev => {
-      this.hide();
-    });
+    if (this.keyupListener) {
+      window.removeEventListener('keyup', this.keyupListener);
+    }
+    this.keyupListener = event => {
+      if (this.show && event.key === 'Escape') {
+        this.hide();
+      }
+    };
+    window.addEventListener('keyup', this.keyupListener);
     if (this.action) {
       const routePath = (this.action.route && this.action.route.path) || '';
       const routeParams = (routePath.match(/:\w+/g) || []).map(pn =>
@@ -156,6 +156,11 @@ export default {
         type: param.type,
         value: null,
       }));
+    }
+  },
+  beforeDestroy() {
+    if (this.keyupListener) {
+      window.removeEventListener('keyup', this.keyupListener);
     }
   },
   watch: {
@@ -662,8 +667,22 @@ pre.preview code >>> b.hk,
 pre.preview code >>> b.hv {
   color: #999;
 }
+.close-icon {
+  position: relative;
+}
 .close-icon >>> svg {
   fill: #ccc;
+}
+.close-icon::after {
+  position: absolute;
+  content: 'esc';
+  font-size: 14px;
+  top: 2px;
+  left: -30px;
+  padding: 0 4px;
+  background-color: #f8f8f8;
+  color: #ccc;
+  border-radius: 4px;
 }
 </style>
 

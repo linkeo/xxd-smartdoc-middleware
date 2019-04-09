@@ -15,6 +15,11 @@
       :action="requestState.routeSpec"
       :root="requestState.root"
     ></request-plugin>
+    <div class="tips">
+      <span>Press</span>
+      <span class="key">F</span>
+      <span>to search</span>
+    </div>
   </main>
 </template>
 
@@ -130,5 +135,24 @@ export default {
 <style scoped>
 section.content {
   min-height: 100vh;
+}
+.tips {
+  display: none;
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  color: #999;
+}
+.tips .key {
+  display: inline-block;
+  margin: 0 4px;
+  padding: 0 4px;
+  background-color: #f3f3f3;
+  border-radius: 4px;
+}
+@media screen and (min-width: 768px) {
+  .tips {
+    display: block;
+  }
 }
 </style>

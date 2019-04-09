@@ -1,7 +1,7 @@
 <template>
-  <div class="search">
+  <div ref="container" class="search">
     <div class="input-wrap">
-      <input type="search" placeholder="搜索 API或文档" v-model="keyword">
+      <input ref="input" type="search" placeholder="搜索 API或文档" v-model="keyword">
       <clear-button :show="!!keyword" @click="clear"></clear-button>
     </div>
     <div class="results-panel" :class="{show:keyword}">
@@ -40,6 +40,45 @@ export default {
       keyword: '',
       results: [],
     };
+  },
+  mounted() {
+    if (this.keyupListener) {
+      window.removeEventListener('keyup', this.keyupListener);
+    }
+    this.keyupListener = event => {
+      if (event.key === 'f') {
+        console.log('go search');
+      }
+    };
+    window.addEventListener('keyup', event => {
+      const inputable =
+        document.designMode === 'on' ||
+        event.target.isContentEditable ||
+        /^(?:input|textarea|select)$/i.test(event.target.tagName);
+      if (!inputable && event.key === 'f') {
+        const { container, input } = this.$refs;
+        if (
+          container &&
+          typeof container.scrollIntoViewIfNeeded === 'function'
+        ) {
+          container.scrollIntoViewIfNeeded();
+        } else if (
+          container &&
+          typeof container.scrollIntoView === 'function'
+        ) {
+          container.scrollIntoView();
+        }
+        if (input) {
+          input.focus();
+          input.setSelectionRange(0, Number.MAX_SAFE_INTEGER);
+        }
+      }
+    });
+  },
+  beforeDestroy() {
+    if (this.keyupListener) {
+      window.removeEventListener('keyup', this.keyupListener);
+    }
   },
   methods: {
     clear() {

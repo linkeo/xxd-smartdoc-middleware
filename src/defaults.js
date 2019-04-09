@@ -119,6 +119,72 @@ g.getAppSpec =
             },
           ],
         },
+        {
+          name: 'example-module-3',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
+        {
+          name: 'example-module-4',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
+        {
+          name: 'example-module-5',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
+        {
+          name: 'example-module-6',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
+        {
+          name: 'example-module-7',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
+        {
+          name: 'example-module-8',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
+        {
+          name: 'example-module-9',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
+        {
+          name: 'example-module-10',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
+        {
+          name: 'example-module-11',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
+        {
+          name: 'example-module-12',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
+        {
+          name: 'example-module-13',
+          description:
+            '```js\nconsole.log(\'Hello world!\');\n```\n\n```cpp\nvoid main() {\n  std::cout << "Hello world!" << std::eol;\n}\n```\n\n```go\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello world!")\n}\n```',
+          actions: [],
+        },
       ],
       docs: [],
     };
