@@ -1,7 +1,7 @@
 <template>
   <div ref="container" class="search">
     <div class="input-wrap">
-      <input ref="input" type="search" placeholder="搜索 API或文档" v-model="keyword">
+      <input ref="input" type="search" placeholder="搜索 API或文档" v-model="keyword" />
       <clear-button :show="!!keyword" @click="clear"></clear-button>
     </div>
     <div class="results-panel" :class="{show:keyword}">
@@ -94,6 +94,7 @@ export default {
         for (const controller of (this.spec && this.spec.modules) || []) {
           if (regexp.test(controller.title)) {
             results.push({
+              order: 2000 + controller.name.length,
               title: controller.title,
               text: '控制器',
               link: `/api/controller/${controller.name}`,
@@ -105,6 +106,7 @@ export default {
               regexp.test(`${route.route.method} ${route.route.path}`)
             ) {
               results.push({
+                order: 3000 + route.route.path.length,
                 title: `${route.title}（${controller.title}）`,
                 text: `接口：${route.route.method} ${route.route.path}`,
                 link: `/api/controller/${controller.name}#${route.name}`,
@@ -151,6 +153,7 @@ export default {
               );
               if (sectionMatch.result) {
                 results.push({
+                  order: 1000,
                   title: item.title + ' • ' + section.title,
                   text: sectionMatch.preview || section.title,
                   link: section.link,
@@ -167,6 +170,7 @@ export default {
             }
           }
         }
+        results.sort((a, b) => a.order - b.order);
         this.results = results;
       } else {
         this.results = [];
