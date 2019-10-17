@@ -12,7 +12,8 @@ npm i koa-mount xxd-smartdoc-middleware@^1
 const app = new Koa();
 const smartdoc = require('xxd-smartdoc-middleware');
 //...
-const spec = require('./spec.json'); // The API specification of your web application.
+const spec = require('./spec.json'); // The API specification of your web application
+// const spec = require.resolve('./spec.json'); // Path to a JSON file is also acceptable
 const prefix = '/docs'; // The prefix you want to serve smartdoc.
 const docsDir = `${__dirname}/docs`; // The directory of markdown documents.
 app.use(mount(prefix, smartdoc({ prefix, spec, docsDir })));
