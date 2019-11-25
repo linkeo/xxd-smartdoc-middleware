@@ -76,7 +76,6 @@ export const addLanguageTag = html => {
       if (svg) {
         const p = document.createElement('p');
         p.appendChild(svg);
-        svg.style.width = '';
         svg.style.maxWidth = '100%';
         code.parentElement.replaceWith(p);
       }
