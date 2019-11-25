@@ -12,6 +12,7 @@ import Home from './routes/Home';
 import ControllerDocument from './routes/ControllerDocument.vue';
 import ArticleDocument from './routes/ArticleDocument.vue';
 import './defaults';
+import { decode } from 'punycode';
 
 const anchorOffset = 100;
 const setAnchorInterval = 1000;
@@ -117,7 +118,7 @@ const router = new VueRouter({
 router.afterEach((to, from) => {
   setTimeout(() => {
     if (to.hash) {
-      setAnchor(to.hash);
+      setAnchor(decodeURIComponent(to.hash));
     } else {
       clearAnchor();
     }
@@ -125,7 +126,7 @@ router.afterEach((to, from) => {
   if (autoAnchorer === 0) {
     setTimeout(() => {
       if (to.hash) {
-        scrollToElement(to.hash);
+        scrollToElement(decodeURIComponent(to.hash));
       } else {
         scrollToElement('body');
       }
@@ -139,7 +140,18 @@ window.addEventListener(
     if (autoScroller > 0) {
       return;
     }
-    const anchors = Array.from(document.querySelectorAll('#main *[id]'))
+    const anchors = Array.from(
+      document.querySelectorAll(
+        [
+          '#main h1[id]',
+          '#main h2[id]',
+          '#main h3[id]',
+          '#main h4[id]',
+          '#main h5[id]',
+          '#main h6[id]',
+        ].join(', '),
+      ),
+    )
       .map(element => ({
         element,
         top: element.getBoundingClientRect().top - anchorOffset,
@@ -154,11 +166,16 @@ window.addEventListener(
         dest = '#' + id;
       }
     }
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
-    if (isMobile){
-      router.replace(dest);
-    } else {
-      router.push(dest);
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
+      navigator.userAgent,
+    );
+    const moved = dest !== router.history.current.hash;
+    if (moved) {
+      if (isMobile) {
+        router.replace(dest);
+      } else {
+        router.push(dest);
+      }
     }
     setTimeout(() => {
       autoAnchorer -= 1;

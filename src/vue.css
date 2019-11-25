@@ -735,6 +735,7 @@ body {
 .token.unit {
   color: var(--theme-color, #42b983);
 }
+.token.builtin,
 .token.function,
 .token.keyword {
   color: #e96900;
