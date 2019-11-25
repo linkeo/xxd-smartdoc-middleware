@@ -74,7 +74,11 @@ export const addLanguageTag = html => {
     if (langClass === 'language-mermaid') {
       const svg = code.querySelector('svg');
       if (svg) {
-        code.parentElement.replaceWith(svg);
+        const p = document.createElement('p');
+        p.appendChild(svg);
+        svg.style.width = '';
+        svg.style.maxWidth = '100%';
+        code.parentElement.replaceWith(p);
       }
     } else if (langClass) {
       const lang = langClass.slice(9).toUpperCase();
