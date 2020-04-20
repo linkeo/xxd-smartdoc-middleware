@@ -7,5 +7,10 @@
     "vue-html": "html"
   },
   "eslint.validate": ["javascript", "javascriptreact", "vue"],
-  "editor.rulers": [100]
+  "editor.rulers": [
+    100
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

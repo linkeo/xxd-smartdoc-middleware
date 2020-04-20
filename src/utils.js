@@ -29,6 +29,7 @@ const temp = document.createElement('div');
 Prism.languages.json = Prism.languages.json5 || Prism.languages.json;
 
 const options = {
+  gfm: true,
   highlight: (code, lang, callback) => {
     try {
       if (lang === 'mermaid') {

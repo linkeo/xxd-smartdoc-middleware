@@ -186,6 +186,87 @@ g.getAppSpec =
           actions: [],
         },
       ],
-      docs: [],
+      docs: [
+        {
+          prefix: '',
+          list: [
+            {
+              link: '/articles/test.md',
+              title: '测试文章',
+              content: [
+                '测试文章 1. 第一节 1.1. 第一小节 2. 第二节 2.1. 第一小节',
+              ],
+              markdown:
+                '# 测试文章\n\n- [测试文章](#测试文章)\n  - [1. 第一节](#1-第一节)\n    - [1.1. 第一小节](#11-第一小节)\n  - [2. 第二节](#2-第二节)\n    - [2.1. 第一小节](#21-第一小节)\n\n## 1. 第一节\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\n| a       |     b      | c      |       d |\n| ------- | :--------: | :----- | ------: |\n| apple   |   black    | city   |    draw |\n| abandon |    blue    | cyber  |   drink |\n| ahead   | basketball | crisis |    dark |\n| asleep  |    bad     | clamp  | dismiss |\n\n### 1.1. 第一小节\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\n> Lorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\n## 2. 第二节\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\n| a       |     b      | c      |       d |\n| ------- | :--------: | :----- | ------: |\n| apple   |   black    | city   |    draw |\n| abandon |    blue    | cyber  |   drink |\n| ahead   | basketball | crisis |    dark |\n| asleep  |    bad     | clamp  | dismiss |\n\n### 2.1. 第一小节\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\n> Lorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n',
+              children: [
+                {
+                  link: '/articles/test.md#1-第一节',
+                  title: '1. 第一节',
+                  content: [
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'a b c d apple black city draw abandon blue cyber drink ahead basketball crisis dark asleep bad clamp dismiss',
+                    '1.1. 第一小节',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                  ],
+                },
+                {
+                  link: '/articles/test.md#2-第二节',
+                  title: '2. 第二节',
+                  content: [
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'a b c d apple black city draw abandon blue cyber drink ahead basketball crisis dark asleep bad clamp dismiss',
+                    '2.1. 第一小节',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          prefix: 'drafts',
+          list: [
+            {
+              link: '/articles/drafts/test.md',
+              title: '测试文章',
+              content: [
+                '测试文章 1. 第一节 1.1. 第一小节 2. 第二节 2.1. 第一小节',
+              ],
+              markdown:
+                '# 测试文章\n\n- [测试文章](#测试文章)\n  - [1. 第一节](#1-第一节)\n    - [1.1. 第一小节](#11-第一小节)\n  - [2. 第二节](#2-第二节)\n    - [2.1. 第一小节](#21-第一小节)\n\n## 1. 第一节\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\n| a       |     b      | c      |       d |\n| ------- | :--------: | :----- | ------: |\n| apple   |   black    | city   |    draw |\n| abandon |    blue    | cyber  |   drink |\n| ahead   | basketball | crisis |    dark |\n| asleep  |    bad     | clamp  | dismiss |\n\n### 1.1. 第一小节\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\n> Lorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\n## 2. 第二节\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\n| a       |     b      | c      |       d |\n| ------- | :--------: | :----- | ------: |\n| apple   |   black    | city   |    draw |\n| abandon |    blue    | cyber  |   drink |\n| ahead   | basketball | crisis |    dark |\n| asleep  |    bad     | clamp  | dismiss |\n\n### 2.1. 第一小节\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\n> Lorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n\nLorem ipsum dolor, **sit amet** _consectetur_ `adipisicing` elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?\n',
+              children: [
+                {
+                  link: '/articles/drafts/test.md#1-第一节',
+                  title: '1. 第一节',
+                  content: [
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'a b c d apple black city draw abandon blue cyber drink ahead basketball crisis dark asleep bad clamp dismiss',
+                    '1.1. 第一小节',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                  ],
+                },
+                {
+                  link: '/articles/drafts/test.md#2-第二节',
+                  title: '2. 第二节',
+                  content: [
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'a b c d apple black city draw abandon blue cyber drink ahead basketball crisis dark asleep bad clamp dismiss',
+                    '2.1. 第一小节',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, natus eum. Excepturi fuga quia autem esse eaque? Sunt ad atque neque iusto qui omnis voluptas eius cupiditate iste. Eveniet, consequatur?',
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
   });

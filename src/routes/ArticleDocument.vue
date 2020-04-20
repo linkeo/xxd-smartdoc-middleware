@@ -1,5 +1,5 @@
 <template>
-  <div v-html="doc.html"></div>
+  <div @click="onContentClick" v-html="doc.html"></div>
 </template>
 
 <script>
@@ -7,8 +7,6 @@ export default {
   props: ['spec', 'apis'],
   data() {
     const path = (this.$route && this.$route.path) || '';
-    const key = path.replace('/api/controller/', '');
-
     const doc = ((this.spec && this.spec.docs) || [])
       .map(group => group.list.find(item => item.link === path))
       .find(item => item);
@@ -17,10 +15,28 @@ export default {
       doc,
     };
   },
+  methods: {
+    onContentClick(event) {
+      console.log(event.target);
+      const { target } = event;
+      // if (even)
+      if (target.tagName === 'A') {
+        // raw id link
+        if (
+          location.origin === target.origin &&
+          location.pathname === target.pathname &&
+          /^#[^/]/.test(target.hash)
+        ) {
+          event.preventDefault();
+          this.$router && this.$router.replace(target.hash);
+        }
+      }
+      // if (event)
+    },
+  },
   watch: {
     $route(to) {
       const path = (to && to.path) || '';
-      const key = path.replace('/api/controller/', '');
       this.doc = ((this.spec && this.spec.docs) || [])
         .map(group => group.list.find(item => item.link === path))
         .find(item => item);

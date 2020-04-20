@@ -12,7 +12,6 @@ import Home from './routes/Home';
 import ControllerDocument from './routes/ControllerDocument.vue';
 import ArticleDocument from './routes/ArticleDocument.vue';
 import './defaults';
-import { decode } from 'punycode';
 
 const anchorOffset = 100;
 const setAnchorInterval = 1000;
@@ -32,17 +31,23 @@ const clearAnchor = () => {
 };
 const setAnchor = (() => {
   let state = {};
-  return selector => {
+  return (selector, selectorAsId = false) => {
+    const getTargetElement = () =>
+      selectorAsId
+        ? document.getElementById(selector)
+        : document.querySelector(selector);
+
     if (state[selector]) {
       return Promise.resolve();
     }
     return new Promise((resolve, reject) => {
       clearAnchor();
-      const element = document.querySelector(selector);
+      const element = getTargetElement();
+      console.log(selector, selectorAsId, element);
       if (element) {
         state[selector] = true;
         setTimeout(() => {
-          const showingElement = document.querySelector(selector);
+          const showingElement = getTargetElement();
           if (showingElement) {
             showingElement.classList.add('anchor-active');
           }
@@ -58,12 +63,17 @@ const setAnchor = (() => {
 
 const scrollToElement = (() => {
   let timestamp;
-  return selector =>
-    new Promise((resolve, reject) => {
+  return (selector, selectorAsId = false) => {
+    const getTargetElement = () =>
+      selectorAsId
+        ? document.getElementById(selector)
+        : document.querySelector(selector);
+
+    return new Promise((resolve, reject) => {
       autoScroller += 1;
       let t = Date.now();
       timestamp = t;
-      const element = document.querySelector(selector);
+      const element = getTargetElement();
       if (!element) {
         resolve();
         return;
@@ -91,6 +101,7 @@ const scrollToElement = (() => {
           autoScroller -= 1;
         }, scrollListenInterval * 2);
       });
+  };
 })();
 
 const router = new VueRouter({
@@ -102,7 +113,7 @@ const router = new VueRouter({
   ],
   // scrollBehavior(to, from, savedPosition) {
   //   if (to.hash) {
-  //     setAnchor(to.hash);
+  //     setAnchor(to.hash, true);
   //     return {
   //       selector: to.hash,
   //       offset: { x: 0, y: 100 },
@@ -118,7 +129,7 @@ const router = new VueRouter({
 router.afterEach((to, from) => {
   setTimeout(() => {
     if (to.hash) {
-      setAnchor(decodeURIComponent(to.hash));
+      setAnchor(decodeURIComponent(to.hash).slice(1), true);
     } else {
       clearAnchor();
     }
@@ -126,7 +137,7 @@ router.afterEach((to, from) => {
   if (autoAnchorer === 0) {
     setTimeout(() => {
       if (to.hash) {
-        scrollToElement(decodeURIComponent(to.hash));
+        scrollToElement(decodeURIComponent(to.hash).slice(1), true);
       } else {
         scrollToElement('body');
       }
