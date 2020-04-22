@@ -40,7 +40,7 @@ const makeRegexp = keyword => {
     return {};
   }
   const pattern = matches.map(t => '(' + escapeRegexp(t) + ')').join('(.*?)');
-  console.log(pattern);
+  // console.log(pattern);
   return { regexp: new RegExp(pattern, 'i'), seq: matches.join('') };
 };
 
@@ -67,7 +67,7 @@ const getOrder = (result, keyword) => {
   const c = cl.length;
   // 加权计算分数
   const o = a * 2 + b * 7 + c * 97;
-  console.log(o, a, b, c, cl, result);
+  // console.log(o, a, b, c, cl, result);
   return o;
 };
 
@@ -86,11 +86,6 @@ export default {
       window.removeEventListener('keyup', this.keyupListener);
     }
     this.keyupListener = event => {
-      if (event.key === 'f') {
-        console.log('go search');
-      }
-    };
-    window.addEventListener('keyup', event => {
       const inputable =
         document.designMode === 'on' ||
         event.target.isContentEditable ||
@@ -113,7 +108,8 @@ export default {
           input.setSelectionRange(0, Number.MAX_SAFE_INTEGER);
         }
       }
-    });
+    };
+    window.addEventListener('keyup', this.keyupListener);
   },
   beforeDestroy() {
     if (this.keyupListener) {
@@ -213,7 +209,7 @@ export default {
           }
         }
         results.sort((a, b) => a.order - b.order);
-        console.log(results.slice(0, 100).map(x => x.order));
+        // console.log(results.slice(0, 100).map(x => x.order));
         this.results = results;
       } else {
         this.results = [];

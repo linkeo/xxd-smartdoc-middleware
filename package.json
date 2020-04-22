@@ -1,6 +1,6 @@
 {
   "name": "xxd-smartdoc-middleware",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "It's an project specific version, maybe not suitable for other projects.",
   "main": "./lib/middleware.js",
   "types": "./lib/middleware.d.ts",
