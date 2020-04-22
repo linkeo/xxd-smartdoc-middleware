@@ -35,11 +35,40 @@ import ClearButton from './ClearButton.vue';
 
 const makeRegexp = keyword => {
   const matches = keyword.match(/\S/g);
+  // const matches = keyword.match(/\w+|\p{sc=Han}|[^\w\s\p{sc=Han}]+/g);
   if (!matches) {
-    return null;
+    return {};
   }
-  const pattern = matches.map(escapeRegexp).join('.{0,100}?');
-  return new RegExp(pattern, 'i');
+  const pattern = matches.map(t => '(' + escapeRegexp(t) + ')').join('(.*?)');
+  console.log(pattern);
+  return { regexp: new RegExp(pattern, 'i'), seq: matches.join('') };
+};
+
+const _result = /x/.exec('x');
+
+/**
+ * @param {typeof _result} result
+ */
+const getOrder = (result, keyword) => {
+  // 匹配到的完整字符串长度
+  const a = result.input.length;
+  // 匹配到的部分长度
+  const b = result[0].length;
+  // 匹配到的部分的连续子串
+  const cl = [result[1]];
+  for (let i = 2; i + 1 < result.length; i += 2) {
+    if (!result[i]) {
+      cl.push(cl.pop() + result[i + 1]);
+    } else {
+      cl.push(result[i + 1]);
+    }
+  }
+  // 匹配到的连续子串个数
+  const c = cl.length;
+  // 加权计算分数
+  const o = a * 2 + b * 7 + c * 97;
+  console.log(o, a, b, c, cl, result);
+  return o;
 };
 
 export default {
@@ -47,6 +76,7 @@ export default {
   props: ['spec'],
   data() {
     return {
+      timer: null,
       keyword: '',
       results: [],
     };
@@ -94,10 +124,8 @@ export default {
     clear() {
       this.keyword = '';
     },
-  },
-  watch: {
-    keyword(to) {
-      const regexp = makeRegexp(to);
+    search(to) {
+      const { regexp, seq } = makeRegexp(to);
       let limit = 90;
       if (regexp) {
         const results = [];
@@ -106,9 +134,7 @@ export default {
           if (matchController) {
             results.push({
               className: 'api controller',
-              order:
-                matchController[0].length * 10000 +
-                matchController.input.length,
+              order: getOrder(matchController, seq),
               title: controller.title,
               text: '控制器',
               link: `/api/controller/${controller.name}`,
@@ -121,7 +147,7 @@ export default {
             if (matchAction) {
               results.push({
                 className: 'api action',
-                order: matchAction[0].length * 10000 + matchAction.input.length,
+                order: getOrder(matchAction, seq),
                 title: `${route.title}（${controller.title}）`,
                 text: `接口：${route.route.method} ${route.route.path}`,
                 link: `/api/controller/${controller.name}#${route.name}`,
@@ -150,7 +176,7 @@ export default {
             let prefix = index > 0 ? '…' : '';
             let suffix = index + limit < content.length ? '…' : '';
             return {
-              order: matchContent[0].length * 10000 * matchContent.input.length,
+              order: getOrder(matchContent, seq),
               preview: prefix + content.slice(index, index + limit) + suffix,
             };
           }
@@ -187,10 +213,31 @@ export default {
           }
         }
         results.sort((a, b) => a.order - b.order);
+        console.log(results.slice(0, 100).map(x => x.order));
         this.results = results;
       } else {
         this.results = [];
       }
+    },
+  },
+  watch: {
+    keyword(to) {
+      // -- check input interval
+      // const now = Date.now();
+      // if (this.timer) {
+      //   console.log(now - this.timer);
+      // }
+      // this.timer = now;
+
+      // -- debounced search
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+      this.timer = setTimeout(() => {
+        this.search(to);
+        this.timer = null;
+      }, 350);
     },
   },
 };
