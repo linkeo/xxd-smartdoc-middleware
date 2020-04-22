@@ -873,11 +873,41 @@ pre:after {
 }
 
 .search .matching-post {
+  padding: 1em 8px 1em 0;
   border-bottom: 1px solid #eee;
+  word-break: break-all;
+}
+.search .matching-post h2,
+.search .matching-post p {
+  margin: 0;
+}
+.search .matching-post h2 + p {
+  margin-top: 1em;
 }
 
 .search .matching-post:last-child {
   border-bottom: 0;
+}
+
+.search .matching-post::before {
+  float: right;
+  margin: 0 0 6px 6px;
+  padding: 2px 4px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #ffffff;
+  content: '结果';
+  background-color: #7f8c8d;
+}
+
+.search .matching-post.api::before {
+  content: '接口';
+  background-color: #42b983;
+}
+
+.search .matching-post.document::before {
+  content: '文档';
+  background-color: #e96900;
 }
 
 .search p {
