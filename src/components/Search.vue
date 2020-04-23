@@ -52,33 +52,67 @@ const makeRegexp = keyword => {
 
 const _result = /x/.exec('x');
 
+/** @param {string} keyword */
+const makeSeqMatcher = keyword => {
+  if (typeof keyword !== 'string') {
+    return { seq: null, exec: null };
+  }
+  const seq = keyword.toLowerCase().replace(/\s/g, '');
+  if (seq.length === 0) {
+    return { seq: null, exec: null };
+  }
+  const chars = Array.from(seq);
+  const exec = text => {
+    if (typeof text !== 'string' || text.length === 0) {
+      return null;
+    }
+    text = text.toLowerCase();
+    const start = text.indexOf(chars[0]);
+    if (start === -1) {
+      return null;
+    }
+    const spans = [chars[0]];
+    let lastIndex = start;
+    let end = start + chars[0].length;
+    let conn = 0;
+    for (const char of chars.slice(1)) {
+      const index = text.indexOf(char, lastIndex + 1);
+      if (index === -1) {
+        return null;
+      }
+      if (index === lastIndex + char.length) {
+        spans[spans.length - 1] += char;
+        conn += 1;
+      } else {
+        spans.push(char);
+      }
+      lastIndex = index;
+      end = index + char.length;
+    }
+    if (conn + conn < seq.length) {
+      return null;
+    }
+    return {
+      0: text.slice(start, end),
+      index: start,
+      length: 1,
+      input: text,
+      spans,
+    };
+  };
+  return { exec, seq };
+};
+
 /**
  * @param {typeof _result} result
  */
-const getOrder = (result, keyword) => {
+const getOrder = result => {
   // 匹配到的完整字符串长度
   const a = result.input.length;
   // 匹配到的部分长度
   const b = result[0].length;
-  // // 匹配到的部分的连续子串
-  // const cl = [result[1]];
-  // for (let i = 2; i + 1 < result.length; i += 2) {
-  //   if (!result[i]) {
-  //     cl[cl.length - 1] += result[i + 1];
-  //   } else {
-  //     cl.push(result[i + 1]);
-  //   }
-  // }
-  // // 匹配到的连续子串个数
-  // const c = cl.length;
-
   // 匹配到的部分的连续子串个数
-  let c = 1;
-  for (let i = 2; i + 1 < result.length; i += 2) {
-    if (result[i]) {
-      c += 1;
-    }
-  }
+  const c = result.spans.length;
   // 加权计算分数
   const o = a * 2 + b * 7 + c * 97;
   // console.log(o, a, b, c, cl, result);
@@ -135,19 +169,30 @@ export default {
       this.keyword = '';
     },
     search(to) {
-      const { regexp, seq } = makeRegexp(to);
+      const { seq, exec } = makeSeqMatcher(to);
       let maxLength = 90;
       const startTime = Date.now();
-      const dueTime = startTime + 1000;
+      const dueTime = startTime + 500;
       const timeout = () => Date.now() > dueTime;
       const delay = () => Date.now() - startTime;
-      if (regexp) {
+      const execMatch = text => {
+        const start = Date.now();
+        const result = exec(text);
+        const cost = Date.now() - start;
+        if (cost >= 100) {
+          console.log(
+            `slow match total=${text.length} seq=${seq.length} cost=${cost}ms`,
+          );
+        }
+        return result;
+      };
+      if (seq) {
         const results = [];
         for (const controller of (this.spec && this.spec.modules) || []) {
           if (timeout()) {
             break;
           }
-          const matchController = regexp.exec(controller.title);
+          const matchController = execMatch(controller.title);
           if (matchController) {
             results.push({
               className: 'api controller',
@@ -162,8 +207,8 @@ export default {
               break;
             }
             const matchAction =
-              regexp.exec(route.title) ||
-              regexp.exec(`${route.route.method} ${route.route.path}`);
+              execMatch(route.title) ||
+              execMatch(`${route.route.method} ${route.route.path}`);
 
             if (matchAction) {
               results.push({
@@ -179,15 +224,14 @@ export default {
         debug('api search cost ' + delay() + 'ms');
 
         /**
-         * @param {RegExp} regexp
          * @param {string} title
          * @param {string[]} paragraphs
          */
-        const match = (regexp, title, paragraphs) => {
-          let matchContent = regexp.exec(title);
+        const match = (title, paragraphs) => {
+          let matchContent = execMatch(title);
           for (const content of paragraphs) {
             if (!matchContent) {
-              matchContent = regexp.exec(content);
+              matchContent = execMatch(content);
             }
           }
           if (matchContent) {
@@ -214,7 +258,7 @@ export default {
             if (timeout()) {
               break;
             }
-            const itemMatch = match(regexp, item.title, item.content || []);
+            const itemMatch = match(item.title, item.content || []);
             if (itemMatch) {
               results.push({
                 className: 'document toplevel',
@@ -228,11 +272,7 @@ export default {
               if (timeout()) {
                 break;
               }
-              const sectionMatch = match(
-                regexp,
-                section.title,
-                section.content || [],
-              );
+              const sectionMatch = match(section.title, section.content || []);
               if (sectionMatch) {
                 results.push({
                   className: 'document section',
