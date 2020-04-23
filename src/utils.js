@@ -37,13 +37,13 @@ const options = {
         const t = Date.now() % 1000000;
         const r = Math.round(Math.random() * 10000) % 10000;
         mermaid.render(`mermaid_${t}${r}`, code, _result => {
-          console.log('render');
+          // console.log('render');
           result = _result;
           if (typeof callback === 'function') {
             callback(null, result);
           }
         });
-        console.log('next', result.slice(0, 100), result.slice(-100));
+        // console.log('next', result.slice(0, 100), result.slice(-100));
         return result;
       } else {
         const grammar = lang ? Prism.languages[lang] : null;

@@ -134,7 +134,7 @@ export default {
       const routeParams = (routePath.match(/:\w+/g) || []).map(pn =>
         pn.slice(1),
       );
-      console.log(routePath, routeParams);
+      // console.log(routePath, routeParams);
       const hasBody = !/^(get|delete)$/i.test(this.action.route.method);
       const hasMultipart = (this.action.params || []).some(
         param => param.type === 'Upload',
@@ -173,7 +173,7 @@ export default {
           const routeParams = (routePath.match(/:\w+/g) || []).map(pn =>
             pn.slice(1),
           );
-          console.log(routePath, routeParams);
+          // console.log(routePath, routeParams);
           const hasBody = !/^(get|delete)$/i.test(this.action.route.method);
           const hasMultipart = (this.action.params || []).some(
             param => param.type === 'Upload',
@@ -204,7 +204,7 @@ export default {
         const routeParams = (routePath.match(/:\w+/g) || []).map(pn =>
           pn.slice(1),
         );
-        console.log(routePath, routeParams);
+        // console.log(routePath, routeParams);
         const hasBody = !/^(get|delete)$/i.test(to.route.method);
         const hasMultipart = (to.params || []).some(
           param => param.type === 'Upload',

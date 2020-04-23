@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     onContentClick(event) {
-      console.log(event.target);
+      // console.log(event.target);
       const { target } = event;
       // if (even)
       if (target.tagName === 'A') {

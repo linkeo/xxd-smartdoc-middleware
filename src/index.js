@@ -43,7 +43,7 @@ const setAnchor = (() => {
     return new Promise((resolve, reject) => {
       clearAnchor();
       const element = getTargetElement();
-      console.log(selector, selectorAsId, element);
+      // console.log(selector, selectorAsId, element);
       if (element) {
         state[selector] = true;
         setTimeout(() => {
