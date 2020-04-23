@@ -138,7 +138,7 @@ export default {
       const { regexp, seq } = makeRegexp(to);
       let maxLength = 90;
       const startTime = Date.now();
-      const dueTime = startTime + 300;
+      const dueTime = startTime + 1000;
       const timeout = () => Date.now() > dueTime;
       const delay = () => Date.now() - startTime;
       if (regexp) {
