@@ -36,47 +36,31 @@ import ClearButton from './ClearButton.vue';
 
 const debug = Debug('debug');
 
-const makeRegexp = keyword => {
-  const matches = [...keyword.replace(/\s/g, '')];
-  // const matches = keyword.match(/\w+|\p{sc=Han}|[^\w\s\p{sc=Han}]+/g);
-  if (!matches) {
-    return {};
-  }
-  const pattern = matches
-    .map(t => '(' + escapeRegexp(t) + ')')
-    .join('(.{0,100}?)');
-  const seq = matches.join('');
-  debug('searching "' + keyword + '" -> "' + seq + '" -> "' + pattern + '"');
-  return { regexp: new RegExp(pattern, 'i'), seq };
-};
-
-const _result = /x/.exec('x');
-
 /** @param {string} keyword */
 const makeSeqMatcher = keyword => {
   if (typeof keyword !== 'string') {
     return { seq: null, exec: null };
   }
-  const seq = keyword.toLowerCase().replace(/\s/g, '');
+  const seq = keyword.replace(/\s/g, '');
   if (seq.length === 0) {
     return { seq: null, exec: null };
   }
-  const chars = Array.from(seq);
-  const exec = text => {
-    if (typeof text !== 'string' || text.length === 0) {
+  const lowerChars = Array.from(seq.toLowerCase());
+  const exec = input => {
+    if (typeof input !== 'string' || input.length === 0) {
       return null;
     }
-    text = text.toLowerCase();
-    const start = text.indexOf(chars[0]);
+    const lowerInput = input.toLowerCase();
+    const start = lowerInput.indexOf(lowerChars[0]);
     if (start === -1) {
       return null;
     }
-    const spans = [chars[0]];
+    const spans = [lowerChars[0]];
     let lastIndex = start;
-    let end = start + chars[0].length;
+    let end = start + lowerChars[0].length;
     let conn = 0;
-    for (const char of chars.slice(1)) {
-      const index = text.indexOf(char, lastIndex + 1);
+    for (const char of lowerChars.slice(1)) {
+      const index = lowerInput.indexOf(char, lastIndex + 1);
       if (index === -1) {
         return null;
       }
@@ -93,19 +77,16 @@ const makeSeqMatcher = keyword => {
       return null;
     }
     return {
-      0: text.slice(start, end),
+      0: input.slice(start, end),
       index: start,
       length: 1,
-      input: text,
+      input,
       spans,
     };
   };
   return { exec, seq };
 };
 
-/**
- * @param {typeof _result} result
- */
 const getOrder = result => {
   // 匹配到的完整字符串长度
   const a = result.input.length;
